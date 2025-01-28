@@ -2,20 +2,22 @@ const fast = document.querySelector("#check-fast");
 const cheap = document.querySelector("#check-cheap");
 const good = document.querySelector("#check-good");
 
-fast.addEventListener("change", function () {
-  if (cheap.checked === true && good.checked === true) {
-    good.checked = false;
-  }
-});
+let lastChecked = null;
+let count = 0;
 
-cheap.addEventListener("change", function () {
-  if (fast.checked === true && good.checked === true) {
-    fast.checked = false;
-  }
-});
+fast.addEventListener("change", check);
 
-good.addEventListener("change", function () {
-  if (fast.checked === true && cheap.checked === true) {
-    cheap.checked = false;
-  }
-});
+cheap.addEventListener("change", check);
+
+good.addEventListener("change", check);
+
+function check(parameter) {
+  const checkbox = parameter.target;
+  if (checkbox.checked === true) {
+    count++;
+    if (count > 2) {
+      lastChecked.checked = false;
+    }
+  } else count--;
+  lastChecked = checkbox;
+}
